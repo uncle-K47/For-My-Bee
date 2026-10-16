@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>To My Bee 🤍</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Georgia, "Times New Roman", serif;
+            background: linear-gradient(
+                135deg, #fffaf3, #f5e9dc, #fffdf9
+            );
+            color: #66534a;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 680px;
+            margin: auto;
+            padding: 45px 0 20px;
+        }
+
+        .top-label {
+            color: #a77b70;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 7vw, 3rem);
+            font-weight: normal;
+            color: #a77b70;
+            margin: 20px 0;
+        }
+
+        h2 {
+            color: #a77b70;
+            font-weight: normal;
+        }
+
+        .subtitle {
+            font-style: italic;
+            line-height: 1.9;
+            color: #8e756a;
+        }
+
+        /* ENVELOPE */
+
+        .envelope-container {
+            margin: 75px auto 35px;
+        }
+
+        .envelope {
+            position: relative;
+            width: 240px;
+            height: 155px;
+            margin: auto;
+            background: #dfc5ae;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 12px 30px #8e756322;
+            transition: transform 0.3s;
+        }
+
+        .envelope:hover {
+            transform: translateY(-5px);
+        }
+
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-left: 120px solid transparent;
+            border-right: 120px solid transparent;
+            border-top: 85px solid #c9a68b;
+            transform-origin: top;
+            transition: transform 0.7s ease;
+            z-index: 3;
+        }
+
+        .envelope.open::before {
+            transform: rotateX(180deg);
+        }
+
+        .envelope::after {
+            content: "🤍";
+            position: absolute;
+            top: 55px;
+            left: 0;
+            width: 100%;
+            font-size: 32px;
+            z-index: 4;
+        }
+
+        .envelope.open::after {
+            display: none;
+        }
+
+        .click-text {
+            color: #92766a;
+            font-size: 0.95rem;
+        }
+
+        button {
+            border: 1px solid #c6a395;
+            border-radius: 30px;
+            padding: 12px 25px;
+            margin-top: 15px;
+            background: #fffaf3;
+            color: #806257;
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #f1e1d4;
+        }
+
+        /* LOVE LETTER */
+
+        .letter {
+            display: none;
+            margin: 40px auto;
+            padding: 30px 26px;
+            background: #fffefa;
+            border: 1px solid #eadbc9;
+            border-radius: 8px;
+            box-shadow: 0 10px 35px #8e756315;
+            text-align: left;
+            line-height: 2;
+            animation: appear 1s ease;
+        }
+
+        .letter h2 {
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        .letter p {
+            white-space: pre-line;
+        }
+
+        .letter-divider {
+            text-align: center;
+            color: #c5a194;
+            margin: 25px 0;
+        }
+
+        .signature {
+            text-align: right;
+            font-style: italic;
+            color: #a77b70;
+        }
+
+        /* COUNTDOWN */
+
+        .countdown {
+            margin-top: 60px;
+            padding: 30px 15px;
+            border-top: 1px solid #e4d3c4;
+            border-bottom: 1px solid #e4d3c4;
+        }
+
+        #timer {
+            margin: 20px 0;
+            color: #a77b70;
+            font-size: clamp(1rem, 4vw, 1.4rem);
+            line-height: 2;
+        }
+
+        .countdown-note {
+            font-size: 0.9rem;
+            color: #92766a;
+            line-height: 1.8;
+        }
+
+        /* MUSIC */
+
+        .music-section {
+            margin-top: 55px;
+            padding: 20px 0;
+        }
+
+        .music-player {
+            margin-top: 25px;
+            padding: 25px 18px;
+            background: #fffefa;
+            border: 1px solid #eadbc9;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px #8e756315;
+        }
+
+        .music-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .music-player h3 {
+            color: #a77b70;
+            font-weight: normal;
+        }
+
+        .music-player p {
+            color: #92766a;
+            font-size: 0.9rem;
+        }
+
+        .music-player iframe {
+            display: block;
+            width: 100%;
+            border: 0;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .music-note {
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+
+        /* FALLING FLOWERS */
+
+        .flower {
+            position: fixed;
+            top: -35px;
+            pointer-events: none;
+            animation: fall linear forwards;
+            z-index: 0;
+        }
+
+        .container,
+        footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        footer {
+            padding: 35px 10px;
+            font-size: 0.85rem;
+            color: #9d8378;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .container {
+                width: 92%;
+                padding-top: 35px;
+            }
+
+            .envelope {
+                width: 210px;
+            }
+
+            .envelope::before {
+                border-left-width: 105px;
+                border-right-width: 105px;
+            }
+
+            .letter {
+                padding: 22px 18px;
+                font-size: 0.95rem;
+            }
+
+            .music-player {
+                padding: 20px 12px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <p class="top-label">
+            A LITTLE SOMETHING FROM MY HEART
+        </p>
+
+        <h1>To My Bee 🐝</h1>
+
+        <p class="subtitle">
+            Some things are too special to leave unsaid.<br>
+            So I made this little place just for you. 🤍
+        </p>
+
+        <!-- ENVELOPE -->
+
+        <div class="envelope-container">
+
+            <div
+                class="envelope"
+                id="envelope"
+                role="button"
+                tabindex="0"
+                aria-label="Open your love letter"
+                aria-expanded="false"
+                onclick="openLetter()">
+            </div>
+
+            <p class="click-text" id="clickText">
+                A letter is waiting for you 💌
+            </p>
+
+            <button id="openButton" onclick="openLetter()">
+                Open My Heart 🤍
+            </button>
+
+        </div>
+
+        <!-- LOVE LETTER -->
+
+        <section class="letter" id="letter">
+
+            <h2>My Dearest Bee 🤍</h2>
+
+            <div class="letter-divider">
+                ✿ ───── 🤍 ───── ✿
+            </div>
+
+            <p>Bee, I don't always know how to explain what you mean to me, but I hope you know that you hold a special place in my heart. Having you in my life is something I don't take for granted, and no matter how hard things get, I'll always be grateful for the memories we share and the love we have. 🤍</p>
+
+            <p>
+I appreciate you for who you are, for the little things you do, and for the moments we share. Sometimes, it is the smallest memories that mean the most to me because they remind me how special it is to have you in my life.
+
+Loving you has taught me patience, understanding, and the importance of showing up for someone. I know neither of us is perfect, and I don't expect everything to be perfect. What matters to me is that we keep learning, communicating, and appreciating each other.
+
+I hope we continue making memories, laughing about little things, supporting each other's dreams, and growing into better versions of ourselves.
+
+I want you to know that your dreams matter to me, your happiness matters to me, and the person you are becoming is worth celebrating.
+
+Thank you for the memories we've made and for the moments that still lie ahead of us. Even an ordinary day can become meaningful when it is shared with someone special.
+
+I don't know everything the future holds, but I hope it gives us more reasons to smile, more lessons to learn, and more beautiful memories to look back on.
+
+You are my Bee, and this little corner of the internet is my way of giving you something made with care, just for you.
+
+Whenever you open this page, I hope it reminds you that you are appreciated and that the little things can sometimes carry the biggest feelings.
+            </p>
+
+            <div class="letter-divider">🤍 ✿ 🤍</div>
+
+            <p class="signature">
+                With love,<br>
+                Teddy 🤍
+            </p>
+
+        </section>
+
+        <!-- ANNIVERSARY COUNTDOWN -->
+
+        <section class="countdown">
+
+            <h2>Our Special Day 🤍</h2>
+
+            <p class="subtitle">
+                Another chapter in our story.<br>
+                Another memory to treasure.
+            </p>
+
+            <div id="timer" aria-live="polite">
+                Loading our countdown...
+            </div>
+
+            <p class="countdown-note" id="countdownNote">
+                18 October 2026 🤍
+            </p>
+
+        </section>
+
+        <!-- MUSIC -->
+
+        <section class="music-section">
+
+            <h2>A Little Music For You 🎵</h2>
+
+            <p class="subtitle">
+                A song for you, Bee.<br>
+                Take a moment, relax, and enjoy. 🤍
+            </p>
+
+            <div class="music-player">
+
+                <div class="music-icon">🎶</div>
+
+                <h3>I Think They Call This Love</h3>
+
+                <p>Matthew Ifield · Cover</p>
+
+                <iframe
+                    width="560"
+                    height="315"
+                    src="https://www.youtube-nocookie.com/embed/CnEqrgMlWLQ"
+                    title="I Think They Call This Love - Matthew Ifield"
+                    loading="lazy"
+                    allow="encrypted-media; picture-in-picture"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen>
+                </iframe>
+
+                <p class="music-note">
+                    Press play to listen to the song. 🎵
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        Made with care, just for Bee. 🤍<br>
+        One letter. One song. A thousand feelings.
+    </footer>
+
+    <script>
+        // OPEN THE ENVELOPE
+
+        function openLetter() {
+            const envelope = document.getElementById("envelope");
+            const letter = document.getElementById("letter");
+            const clickText = document.getElementById("clickText");
+            const openButton = document.getElementById("openButton");
+
+            envelope.classList.add("open");
+            letter.style.display = "block";
+
+            envelope.setAttribute("aria-expanded", "true");
+
+            clickText.textContent =
+                "A little piece of my heart, just for you 🤍";
+
+            openButton.textContent = "Your Letter Is Open 🤍";
+            openButton.disabled = true;
+
+            letter.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+
+        // KEYBOARD ACCESSIBILITY
+
+        document.getElementById("envelope")
+            .addEventListener("keydown", function(event) {
+
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    openLetter();
+                }
+            });
+
+        // COUNTDOWN TO 18 OCTOBER 2026
+        // South African time: UTC+2.
+
+        function updateCountdown() {
+            const now = new Date();
+
+            const anniversary = new Date(
+                "2026-10-18T00:00:00+02:00"
+            );
+
+            const timer = document.getElementById("timer");
+            const note = document.getElementById("countdownNote");
+
+            const difference = anniversary.getTime() - now.getTime();
+
+            if (difference <= 0) {
+                timer.innerHTML =
+                    "Happy Anniversary! 🤍<br>" +
+                    "Today is a day to celebrate our memories.";
+
+                note.textContent =
+                    "18 October 2026 · A special day in our story.";
+
+                return;
+            }
+
+            const days = Math.floor(
+                difference / (1000 * 60 * 60 * 24)
+            );
+
+            const hours = Math.floor(
+                (difference / (1000 * 60 * 60)) % 24
+            );
+
+            const minutes = Math.floor(
+                (difference / (1000 * 60)) % 60
+            );
+
+            const seconds = Math.floor(
+                (difference / 1000) % 60
+            );
+
+            timer.textContent =
+                days + " days · " +
+                hours + " hours · " +
+                minutes + " minutes · " +
+                seconds + " seconds";
+
+            note.textContent =
+                "Counting down to 18 October 2026 🤍";
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // FALLING FLOWER PETALS
+
+        const flowers = ["🌸", "🤍", "🌷", "✿"];
+
+        setInterval(function() {
+            const flower = document.createElement("div");
+
+            flower.className = "flower";
+
+            flower.textContent =
+                flowers[Math.floor(Math.random() * flowers.length)];
+
+            flower.style.left = Math.random() * 100 + "vw";
+
+            flower.style.animationDuration =
+                (5 + Math.random() * 5) + "s";
+
+            flower.style.fontSize =
+                (14 + Math.random() * 12) + "px";
+
+            document.body.appendChild(flower);
+
+            setTimeout(function() {
+                flower.remove();
+            }, 10000);
+
+        }, 1200);
+    </script>
+
+</body>
+</html>
